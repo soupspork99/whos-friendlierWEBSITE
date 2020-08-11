@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        
+
+        $(document).ready(function() {
+
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            }
+
+            const randomNum = getRandomInt(75)
+            const randomNum1 = getRandomInt(75)
+            if (randomNum === randomNum1) {
+                setTimeout(location.reload.bind(location), 5);
+
+            }
+            var img = `<img class='test' id='right' src="https://drew-images-ronen.s3-us-west-1.amazonaws.com/${randomNum}.jpg">`
+            var img1 = `<img class='test' id='left' src="https://drew-images-ronen.s3-us-west-1.amazonaws.com/${randomNum1}.jpg">`
+
+
+
+
+
+
+            $("p").append(img);
+
+            $("p").prepend(img1);
+
+            $("#right").click(function() {
+
+                var data = {};
+                data.number = randomNum
+
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: 'http://127.0.0.1:3000/post',
+                    success: function(data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                })
+                setTimeout(location.reload.bind(location), 50);
+
+            });
+
+            $("#left").click(function() {
+
+                var data = {};
+                data.votes = randomNum1
+
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: 'http://127.0.0.1:3000/post',
+                    success: function(data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                })
+
+                setTimeout(location.reload.bind(location), 50);
+            });
+
+        });
+    </script>
+    <style>
+        .test {
+            display: inline;
+        }
+        
+        p {
+            font-size: 5pc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>whos friendlier :)</h1>
+    <p class='test'>or</p>
+
+</body>
+
+</html>
